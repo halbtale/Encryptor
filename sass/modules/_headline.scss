@@ -1,0 +1,15 @@
+.headline {
+  font-family: 'Rubik Mono One', sans-serif;
+
+  &--centered {
+      text-align: center;
+  }
+
+  &--small {
+      font-size: 3rem;
+  }
+
+  &--large {
+      font-size: 4rem;
+  }
+}
