@@ -1,0 +1,18 @@
+{
+  "name": "Encryptor",
+  "short_name": "Encryptor",
+  "lang": "it-IT",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "theme_color": "#000",
+  "icons": [
+    {
+      "src": "./image/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#000",
+  "scope": ".",
+  "orientation": "portrait-primary"
+}
