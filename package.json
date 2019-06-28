@@ -1,5 +1,5 @@
 {
-  "name": "Encryptor",
+  "name": "Enigma",
   "version": "1.0.0",
   "description": "App to encrypt messages",
   "main": "index.js",
