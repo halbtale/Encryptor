@@ -143,24 +143,67 @@ class Rotor {
 // ENIGMA
 
 class Enigma {
-  constructor(r1_key = 'A', r2_key = 'A', r3_key = 'A') {
-    this.r1 = new Rotor(r1_key);
-    this.r2 = new Rotor(r2_key, 1);
-    this.r3 = new Rotor(r3_key, 2);
+  constructor(key_input) {
+    const rotor_key = key_input.split('').splice(0, 3);
+    this.r1 = new Rotor(rotor_key[0]);
+    this.r2 = new Rotor(rotor_key[1], 1);
+    this.r3 = new Rotor(rotor_key[2], 2);
+
+    let key_unique = [...new Set(key_input.split(''))];
+    key_unique = key_unique.filter((el) => {
+      if (default_alphabet.includes(el)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (key_unique.length % 2 !== 0) {
+      key_unique.pop();
+    }
+    let plugborard_array = [];
+    key_unique.forEach((l, i) => {
+      if (i % 2 === 0) {
+        plugborard_array.push([l]);
+      } else {
+        plugborard_array[plugborard_array.length-1][1] = l;
+      }
+    });
+    let plugboard = {};
+    plugborard_array.forEach(el => {
+      plugboard[el[0]] = el[1];
+      plugboard[el[1]] = el[0];
+    });
+    this.plugboard = plugboard;
   }
 
   encrypt_letter(l) {
-    const l1 = this.r1.encrypt_letter(l);
-    const l2 = this.r2.encrypt_letter(l1);
-    const l3 = this.r3.encrypt_letter(l2);
-    return l3;
+    let l1 = l;
+    if (this.plugboard[l]) {
+      l1 = this.plugboard[l1];
+    }
+    const l2 = this.r1.encrypt_letter(l1);
+    const l3 = this.r2.encrypt_letter(l2);
+    const l4 = this.r3.encrypt_letter(l3);
+    let l5 = l4;
+    if (this.plugboard[l4]) {
+      l5 = this.plugboard[l4];
+    }
+    return l5;
   }
 
   decrypt_letter(l) {
-    const l1 = this.r1.decrypt_letter(l);
-    const l2 = this.r2.decrypt_letter(l1);
-    const l3 = this.r3.decrypt_letter(l2);
-    return l3;
+    let l1 = l;
+    if (this.plugboard[l]) {
+      l1 = this.plugboard[l1];
+    }
+    const l2 = this.r1.decrypt_letter(l1);
+    const l3 = this.r2.decrypt_letter(l2);
+    const l4 = this.r3.decrypt_letter(l3);
+    let l5 = l4;
+    if (this.plugboard[l4]) {
+      l5 = this.plugboard[l4];
+    }
+    return l5;
   }
 
   encrypt_words(text) {
@@ -186,10 +229,6 @@ class Enigma {
 
 
 let text_input;
-let key;
-let r1_key;
-let r2_key;
-let r3_key;
 let enigma;
 let output;
 let criptMode;
@@ -216,11 +255,8 @@ decrypt_button.addEventListener('click', () => {
 
 submit_button.addEventListener('click', () => {
   if (key_textarea.value) {
-     key = key_textarea.value.split('').splice(0, 3);
-     r1_key = key[0];
-     r2_key = key[1];
-     r3_key = key[2];
-     enigma = new Enigma(r1_key, r2_key, r3_key);
+     const key_input = key_textarea.value;
+     enigma = new Enigma(key_input);
      key_page.style.display = 'none';
      key_textarea.value = '';
      results_page.style.display = 'block';
