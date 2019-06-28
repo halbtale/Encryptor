@@ -1,3 +1,12 @@
+// SERVICE WORKERS
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('./sw.js')
+    .catch(function(err) {
+      console.log(err);
+    });
+}
+
 // SETTINGS
 const default_alphabet = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'.split(''));
 
